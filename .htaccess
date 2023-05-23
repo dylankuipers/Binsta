@@ -1,0 +1,6 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !.(css|css.map|js|png|jpg|svg|jpeg)$
+    RewriteCond %{REQUEST_URI} !=public/index.php
+    RewriteRule ^(.*)$ public/index.php?url=$1 [L,QSA]
+</IfModule>

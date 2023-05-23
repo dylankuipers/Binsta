@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Binsta</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+	</head>
+	<body class="bg-zinc-100">
+		<div class="flex justify-between bg-white shadow-lg p-4 items-center sticky top-0">
+            <div class="flex w-fit">
+                <a href="/">
+                    <img class="w-32" src="/img/binsta.png" alt="Binsta">
+                </a>
+            </div>
+            {% if session.userId is defined %}
+            <div class="w-72 bg-zinc-100 rounded p-1 flex items-center">
+                <img class="h-8 w-8 mr-1" src="/img/search.png" alt="Search">
+                <form method="GET" action="/search/result/" class="w-full">
+                    <input name="q" class="w-full  font-mono rounded focus:outline-none p-1" placeholder="Search something..." type="text">
+                </form>
+            </div>
+            {% endif %}
+            <div class="flex items-center">
+                {% if session.userId is defined %}
+                    <div class="flex justify-right">
+                        <div>
+                            <a href="/create/post">
+                                <img class="w-8 h-8" src="/img/create_post.svg" alt="Create Post">
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if session.userId is not defined %}
+                    <div>
+                        <a href="/user/login" class="font-mono">Login</a>
+                    </div>
+                {% endif %}
+                {% if session.userId is defined %}
+                        <div class="pl-4">
+                            <a href="/user/profile?id={{ session.userId }}">
+                                <img class="w-10 h-10 border-2 border-black rounded-full" src="/img/{{ session.path }}" alt="pfp">
+                            </a>
+                        </div>
+                        <div class="ml-4">
+                            <form method="POST">
+                                <button name="submit" value="logout" class="font-mono">Log out</button>
+                            </form>
+                        </div>
+                {% endif %}
+                    </div>
+                </div>
+		</div>
+		{% block body %}{% endblock %}
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>
+            hljs.highlightAll();
+
+            document.addEventListener("DOMContentLoaded", function(event) { 
+                var scrollpos = localStorage.getItem('scrollpos');
+                if (scrollpos) window.scrollTo(0, scrollpos);
+            });
+
+            window.onbeforeunload = function(e) {
+                localStorage.setItem('scrollpos', window.scrollY);
+            };
+        </script>
+	</body>
+</html>

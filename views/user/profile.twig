@@ -1,0 +1,93 @@
+{% extends "./layouts/app.twig" %}
+
+{% block body %}
+	<body>
+        <div class="w-[95%] md:w-[75%] mx-auto">
+            <div class="bg-white rounded mt-8 p-4">
+                {% if session.userId == user.id %}
+                <div>
+                    <a href="/user/edit" class="bg-zinc-100 w-fit ml-3 rounded font-mono p-1 border-2 border-black">Edit profile</a>
+                </div>
+                {% endif %}
+                <div class="p-3 flex">
+                    <img class="w-24 h-24 shrink-0 rounded" src="/img/{{ user.path }}" alt="pfp">
+                    <div class="max-w-[75%]">
+                        <div class="font-mono font-bold text-2xl pl-3 overflow-hidden">{{ user.username }}</div>
+                        <div class="font-mono text-md pl-3 max-h-48 overflow-y-auto">{{ user.description }}</div>
+                    </div>
+                </div>
+                <div class="pl-8 pt-8 ml-4 mr-4 flex justify-around">
+                    <a href="/user/profile?id={{ user.id }}">
+                        <div name="viewPosts" class="bg-zinc-100 text-center text-lg font-mono lg:w-72 font-bold rounded min-w-max p-3 h-12 overflow-hidden">{{ user.username | capitalize }}'s posts</div>
+                    </a>
+                    <a href="/user/profile?id={{ user.id }}&view=liked">
+                        <div name="viewLiked" class="ml-8 p-3 bg-zinc-100 text-center text-lg lg:w-72 font-mono font-bold rounded min-w-max overflow-hidden h-12">{{ user.username | capitalize }}'s liked posts</div>
+                    </a>
+                </div>
+                </div>
+                {% for post in posts %}
+                    <div class="bg-white mt-8 mb-8 rounded">
+                        <div class="bg-white rounded-t flex pr-3 pt-3 pl-3">
+                            <a class="flex items-center w-12" href="/user/profile?id={{ post.__get('user').id }}">
+                                <img class="w-12 h-12 min-w-full rounded" src="/img/{{ post.__get('user').path }}" alt="pfp">
+                                <div class="text-lg font-bold pl-4 font-mono">{{ post.__get('user').username | capitalize }}</div>
+                            </a>
+                            <div class="w-full items-center font-mono font-bold pr-8 flex justify-end">{{ post.language }}</div>
+                        </div>
+                        <div class="min-w-full w-full min-h-full h-96">
+                            <pre class="pl-2 pr-2 h-full w-full">
+                                <code name="codeSnippet" class="text-white rounded bg-stone-900 font-mono w-full h-full focus:outline-none language-{{ post.language }}">{{ post.code }}</code>
+                            </pre>
+                        </div>
+                        <div class="flex items-center h-12 mt-8">
+                            {% if post.id not in likes %}
+                                <form method="POST">
+                                    <input type="hidden" name="likePostId" value="{{post.id}}">
+                                    <button name="submit" value="likePost"><img class="w-12 h-12 pl-4" src="/img/heart.svg" alt="Heart"></button>
+                                </form>
+                            {% endif %}
+                            {% if post.id in likes %}
+                                <form method="POST">
+                                    <input type="hidden" name="unlikePostId" value="{{post.id}}">
+                                    <button name="submit" value="unlikePost"><img class="w-12 h-12 pl-4" src="/img/heart_liked.svg" alt="Heart"></button>
+                                </form>
+                            {% endif %}
+                            {% if post.likes != 1 %}
+                                <div class="pl-4 font-mono">{{ post.likes }} Likes</div>
+                            {% endif %}
+                            {% if post.likes == 1 %}
+                                <div class="pl-4 font-mono">{{ post.likes }} Like</div>
+                            {% endif %}
+                        </div>
+                        <div class="bg-white rounded-b p-3">
+                            <div class="font-mono pb-4 max-h-36 overflow-auto flex"><a href="/user/profile?id={{ post.__get('user').id }}" class="font-bold pr-4">{{ post.__get('user').username | capitalize }}</a>{{ post.description }}</div>
+                            <hr>
+                            <div class="max-h-36 pt-4 overflow-auto">
+                                {% for comment in comments %}
+                                    {% if comment.post_id == post.id %}
+                                    <div class="flex">
+                                        <a href="/user/profile?id={{ comment.__get('user').id }}">
+                                            <div class="font-mono font-bold pr-4">
+                                                {{ comment.__get('user').username | capitalize }}
+                                            </div>
+                                        </a>
+                                        <div class="font-mono overflow-auto">
+                                            {{ comment.content }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <form method="POST" class="pt-4">
+                                <input type="hidden" name="commentPostId" value="{{post.id}}">
+                                <div class="flex w-[100%]">
+                                    <input name="commentContent" class="bg-zinc-100 p-2 w-[96%] font-mono rounded focus:outline-none placeholder:text-black placeholder:font-mono" type="text" placeholder="Write a comment...">
+                                    <button class="ml-2" name="submit" value="postComment"><img class="w-6 h-6 justify-center items-center" src="/img/send_icon.svg" alt="Send"></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+        </div>
+	</body>
+{% endblock %}

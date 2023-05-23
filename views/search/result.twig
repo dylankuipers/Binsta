@@ -1,0 +1,24 @@
+{% extends "./layouts/app.twig" %}
+
+{% block body %}
+	<body>
+        <div class="w-[75%] mx-auto">
+        <div class="font-mono text-lg m-4">Results found based on "{{ session.q }}":</div>
+        {% for result in results %}
+        <div class="bg-white max-h-60 m-4 p-2 rounded">
+            <div class="flex">
+                <a class="shrink-0" href="/user/profile?id={{ result.id }}">
+                    <img class="w-12 h-12 shrink-0 rounded" src="/img/{{ result.path }}" alt="pfp">
+                </a>
+                <div class="max-w-[90%]">
+                    <a href="/user/profile?id={{ result.id }}">
+                        <div class="font-bold font-mono pl-1">{{ result.username }}</div>
+                    </a>
+                    <div class="font-mono pl-1 truncate">{{ result.description }}</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+	</body>
+{% endblock %}

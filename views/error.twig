@@ -1,0 +1,13 @@
+{% extends "./layouts/app.twig" %}
+
+{% block body %}
+	<body>
+        <div class="w-fit mx-auto">
+            <div class="bg-white rounded mt-8 p-4 text-center">
+                <div class="font-mono font-bold">ERROR {{ code }}</div>
+                <div class="font-mono">{{ message }}</div>
+                <a href="/" class="text-md text-blue-500 underline font-mono">Return to Binsta</a>
+            </div>
+        </div>
+	</body>
+{% endblock %}

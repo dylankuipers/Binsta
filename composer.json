@@ -1,0 +1,19 @@
+{
+    "name": "dylan/app",
+    "require": {
+        "twig/twig": "^3.5.1",
+        "gabordemooij/redbean": "^5.7.3"
+    },
+    "authors": [
+        {
+            "name": "Dylan Kuipers",
+            "email": "dkuipers9@st.noorderpoort.nl"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "helpers.php"
+            ],
+        "classmap": ["controllers/"]
+        }
+}

@@ -1,0 +1,39 @@
+{% extends "./layouts/app.twig" %}
+
+{% block body %}
+	<body>
+        <div>
+            <div class="bg-white w-[50%] rounded mx-auto mt-8 mb-8 p-4">
+                <div>
+                    <a href="/user/profile?id={{ session.userId }}" class="bg-zinc-100 w-fit rounded font-mono ml-3 p-1 border-2 border-black">Back to profile</a>
+                </div>
+                <div class="p-3 flex">
+                    <img class="w-24 h-24 rounded" src="/img/{{ user.path }}" alt="pfp">
+                    <div class="w-[100%]">
+                        <form method="POST" class="flex flex-col ml-2 w-[100%]" enctype="multipart/form-data">
+                            <input type="text" name="newUsername" class="bg-zinc-100 p-2 font-mono focus:outline-none rounded" value="{{ user.username }}">
+                            <textarea name="newDescription" class="text-black overflow-x-auto rounded bg-zinc-100 font-mono p-2 w-[100%] h-36 mt-2 focus:outline-none resize-none">{{ user.description }}</textarea>
+                    </div>
+                </div>
+                <div class="pl-2 pt-8">
+                        <div class="text-black font-mono text-md">Change profile picture</div>
+                        <input type="file" class="w-fit font-mono" name="fileToUpload">
+                </div>
+                <div class="p-2 flex justify-end">
+                    <button name="submit" value="changeProfile" class="bg-zinc-100 border-2 border-black w-fit text-sm p-1 rounded mt-2">Submit changes</button>
+                    </form>
+                </div>
+                <hr class="mt-4 mb-4">
+                <form method="POST" class="flex flex-col">
+                    <label for="curPassword" class="font-mono">Current password</label>
+                    <input class="bg-zinc-100 p-2 font-mono focus:outline-none rounded w-[50%]" name="curPassword" type="password">
+                    <label for="newPassword" class="font-mono">New password</label>
+                    <input class="bg-zinc-100 p-2 font-mono focus:outline-none rounded w-[50%]" name="newPassword" type="password">
+                    <label for="newPasswordValidation" class="font-mono">Re-enter new password</label>
+                    <input class="bg-zinc-100 p-2 font-mono focus:outline-none rounded w-[50%]" name="newPasswordValidation" type="password">
+                    <button name="submit" value="changePassword" class="bg-zinc-100 border-2 border-black w-fit text-sm p-1 rounded mt-2">Change password</button>
+                </form>
+            </div>
+        </div>
+	</body>
+{% endblock %}
