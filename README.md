@@ -10,7 +10,7 @@
 
 ###
 
-To open the project and test it please follow these simple steps:
+To open the project and use it, please follow these steps:
 
 1. Clone the repository into the root of your server
 2. Open the project in Visual Studio Code (or something else)
